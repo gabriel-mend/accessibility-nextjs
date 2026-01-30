@@ -1,8 +1,20 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import logo from "@/public/logo.svg";
+import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
+  const [isOpenModal, setIsOpenModal] = useState(false);
+
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (isOpenModal) {
+      modalRef.current?.focus();
+    }
+  }, [isOpenModal]);
+
   return (
     <div className="flex flex-col mx-auto w-full max-w-3xl py-8">
       <header className="flex justify-between items-center bg-slate-800 h-20 px-3">
@@ -17,7 +29,7 @@ export default function Home() {
       <main className="mt-10 space-y-4">
         <h1 className="text-2xl font-bold">Artigos</h1>
         <article className="space-y-4">
-          {/* Quando utilizamos a tag article o header e o footer podem ser utilizados para descrever melhor a estrutura do article nao necessariamente criando um landmark */}
+          ß
           <header className="space-y-2">
             <h2 className="text-xl font-bold">
               Por que aprender programação em 2026?
@@ -36,7 +48,6 @@ export default function Home() {
           </p>
         </article>
         <article className="space-y-4">
-          {/* Quando utilizamos a tag article o header e o footer podem ser utilizados para descrever melhor a estrutura do article nao necessariamente criando um landmark */}
           <header className="space-y-2">
             <h2 className="text-xl font-bold">
               Como a inovação impulsiona pequenos negócios
@@ -58,12 +69,43 @@ export default function Home() {
 
       <footer className="flex h-20 justify-center items-center mt-10 bg-slate-800">
         <nav className="flex gap-4" aria-label="Rodape">
-          <Link href="#">Termos de uso</Link>
-          <Link href="#">Termos de uso</Link>
+          <button
+            type="button"
+            className="cursor-pointer"
+            onClick={() => setIsOpenModal(true)}
+          >
+            Termos de uso
+          </button>
         </nav>
       </footer>
+
+      {isOpenModal && (
+        <div
+          role="dialog"
+          aria-labelledby="modalTitle"
+          aria-describedby="modalDescription"
+          aria-controls="modalCloseButton"
+          aria-modal="true"
+          ref={modalRef}
+          className="fixed h-72 space-y-2 bg-white inset-x-0 top-1/2 -translate-y-1/2 mx-auto w-96 flex flex-col justify-center items-center"
+          tabIndex={-1}
+        >
+          <h1 className="text-black text-2xl font-bold" id="modalTitle">
+            Termos de uso
+          </h1>
+          <p className="text-black" id="modalDescription">
+            Este modal e feito com useState e Ref
+          </p>
+          <button
+            type="button"
+            className="p-3 text-white bg-gray-900 cursor-pointer"
+            id="modalCloseButton"
+            onClick={() => setIsOpenModal(false)}
+          >
+            Fechar modal
+          </button>
+        </div>
+      )}
     </div>
   );
 }
-
-// landmarks sao pontos chaves que servem para acessibilidade, ou seja nao devemos duplicar o mesmo landmark

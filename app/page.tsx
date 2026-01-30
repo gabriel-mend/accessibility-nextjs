@@ -29,7 +29,6 @@ export default function Home() {
       <main className="mt-10 space-y-4">
         <h1 className="text-2xl font-bold">Artigos</h1>
         <article className="space-y-4">
-          ß
           <header className="space-y-2">
             <h2 className="text-xl font-bold">
               Por que aprender programação em 2026?
